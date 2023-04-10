@@ -9,6 +9,7 @@ app.use(express.json());
 
 // Global variables
 const users = [];
+const tweets = [];
 
 // Sign Up Route
 app.post('/sign-up', (req, res) => {
@@ -23,6 +24,11 @@ app.post('/sign-up', (req, res) => {
   users.push(newUser);
 
   res.send('OK');
+})
+
+// Get Tweets Route
+app.get('/tweets', (req, res) => {
+  res.send(tweets);
 })
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
