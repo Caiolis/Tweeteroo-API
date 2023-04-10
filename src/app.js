@@ -30,12 +30,12 @@ app.post("/sign-up", (req, res) => {
 app.post("/tweets", (req, res) => {
   const id = tweets.length + 1;
   const { username, tweet } = req.body;
-  const userValidated = users.find(user => user.username === username);
+  const userValidated = users.find((user) => user.username === username);
 
   if (!userValidated) {
-    return res.send('UNAUTHORIZED');
+    return res.send("UNAUTHORIZED");
   }
-  
+
   const newTweet = {
     id,
     username,
@@ -49,7 +49,28 @@ app.post("/tweets", (req, res) => {
 
 // Get Tweets Route
 app.get("/tweets", (req, res) => {
-  res.send(tweets);
+  if (tweets.length === 0) {
+    return res.send(tweets);
+  }
+
+  const lastTweets = tweets.slice(-10);
+  const tweetsWithAvatar = [];
+
+  for (let i = 0; i < lastTweets.length; i++) {
+    const avatar = users.find(
+      (user) => user.username === lastTweets[i].username
+    );
+    const tweet = {
+      id: i + 1,
+      username: avatar.username,
+      avatar: avatar.avatar,
+      tweets: lastTweets[i].tweet,
+    };
+
+    tweetsWithAvatar.push(tweet);
+  }
+
+  res.send(tweetsWithAvatar);
 });
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
