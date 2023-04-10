@@ -64,7 +64,7 @@ app.get("/tweets", (req, res) => {
       id: i + 1,
       username: avatar.username,
       avatar: avatar.avatar,
-      tweets: lastTweets[i].tweet,
+      tweet: lastTweets[i].tweet,
     };
 
     tweetsWithAvatar.push(tweet);
