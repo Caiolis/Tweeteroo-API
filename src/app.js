@@ -1,5 +1,5 @@
 import express from "express";
-import cors from 'cors';
+import cors from "cors";
 
 const PORT = 5000;
 const app = express();
@@ -12,23 +12,44 @@ const users = [];
 const tweets = [];
 
 // Sign Up Route
-app.post('/sign-up', (req, res) => {
+app.post("/sign-up", (req, res) => {
   const id = users.length + 1;
   const { username, avatar } = req.body;
   const newUser = {
     id,
     username,
-    avatar
+    avatar,
   };
 
   users.push(newUser);
 
-  res.send('OK');
-})
+  res.send("OK");
+});
+
+// Post Tweets Route
+app.post("/tweets", (req, res) => {
+  const id = tweets.length + 1;
+  const { username, tweet } = req.body;
+  const userValidated = users.find(user => user.username === username);
+
+  if (!userValidated) {
+    return res.send('UNAUTHORIZED');
+  }
+  
+  const newTweet = {
+    id,
+    username,
+    tweet,
+  };
+
+  tweets.push(newTweet);
+
+  res.send("OK");
+});
 
 // Get Tweets Route
-app.get('/tweets', (req, res) => {
+app.get("/tweets", (req, res) => {
   res.send(tweets);
-})
+});
 
 app.listen(PORT, () => console.log(`listening on port ${PORT}`));
